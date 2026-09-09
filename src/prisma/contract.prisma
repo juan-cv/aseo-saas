@@ -10,3 +10,14 @@ model Tenant {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
+
+model User {
+  id           Int      @id @default(autoincrement())
+  tenantId     Int
+  email        String
+  passwordHash String
+  role         String
+  active       Boolean  @default(true)
+  createdAt    TimestamptzString @default(now())
+  updatedAt    temporal.updatedAtString()
+}
