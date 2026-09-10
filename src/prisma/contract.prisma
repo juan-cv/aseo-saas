@@ -70,6 +70,17 @@ model ServiceType {
   createdAt       TimestamptzString @default(now())
   updatedAt       temporal.updatedAtString()
 }
+model ChecklistItem {
+  id             Int      @id @default(autoincrement())
+  serviceTypeId  Int
+  label          String
+  type           String
+  required       Boolean  @default(false)
+  sortOrder      Int
+  requiresPhoto  Boolean  @default(false)
+  createdAt      TimestamptzString @default(now())
+  updatedAt      temporal.updatedAtString()
+}
 
 
 
