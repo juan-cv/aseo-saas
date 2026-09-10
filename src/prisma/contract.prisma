@@ -21,3 +21,15 @@ model User {
   createdAt    TimestamptzString @default(now())
   updatedAt    temporal.updatedAtString()
 }
+model Customer {
+  id        Int      @id @default(autoincrement())
+  tenantId  Int
+  name      String
+  rut       String?
+  email     String?
+  phone     String?
+  active    Boolean  @default(true)
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
