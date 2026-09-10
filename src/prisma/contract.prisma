@@ -32,4 +32,20 @@ model Customer {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
+model Location {
+  id           Int      @id @default(autoincrement())
+  tenantId     Int
+  customerId   Int
+  name         String
+  address      String
+  commune      String?
+  contactName  String?
+  contactPhone String?
+  instructions String?
+  latitude     Float?
+  longitude    Float?
+  active       Boolean  @default(true)
+  createdAt    TimestamptzString @default(now())
+  updatedAt    temporal.updatedAtString()
+}
 
