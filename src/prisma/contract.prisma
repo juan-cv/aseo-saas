@@ -81,6 +81,22 @@ model ChecklistItem {
   createdAt      TimestamptzString @default(now())
   updatedAt      temporal.updatedAtString()
 }
+model ScheduledService {
+  id            Int      @id @default(autoincrement())
+  tenantId      Int
+  customerId    Int
+  locationId    Int
+  serviceTypeId Int
+  workerId      Int?
+  scheduledDate String
+  startTime     String?
+  endTime       String?
+  status        String
+  startedAt     TimestamptzString?
+  completedAt   TimestamptzString?
+  createdAt     TimestamptzString @default(now())
+  updatedAt     temporal.updatedAtString()
+}
 
 
 
