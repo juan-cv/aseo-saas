@@ -105,6 +105,16 @@ model ChecklistAnswer {
   createdAt          TimestamptzString @default(now())
   updatedAt          temporal.updatedAtString()
 }
+model Evidence {
+  id                 Int      @id @default(autoincrement())
+  scheduledServiceId Int
+  type               String
+  fileUrl            String
+  description        String?
+  createdAt          TimestamptzString @default(now())
+  updatedAt          temporal.updatedAtString()
+}
+
 
 
 
