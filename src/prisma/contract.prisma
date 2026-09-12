@@ -114,6 +114,14 @@ model Evidence {
   createdAt          TimestamptzString @default(now())
   updatedAt          temporal.updatedAtString()
 }
+model ServiceObservation {
+  id                 Int      @id @default(autoincrement())
+  scheduledServiceId Int
+  text               String
+  createdAt          TimestamptzString @default(now())
+  updatedAt          temporal.updatedAtString()
+}
+
 
 
 
