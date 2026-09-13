@@ -9,7 +9,9 @@ model Tenant {
   logoUrl   String?
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
+  users User[]
 }
+
 
 model User {
   id           Int      @id @default(autoincrement())
@@ -20,7 +22,11 @@ model User {
   active       Boolean  @default(true)
   createdAt    TimestamptzString @default(now())
   updatedAt    temporal.updatedAtString()
+
+  tenant       Tenant @relation(fields: [tenantId], references: [id])
 }
+
+
 model Customer {
   id        Int      @id @default(autoincrement())
   tenantId  Int
