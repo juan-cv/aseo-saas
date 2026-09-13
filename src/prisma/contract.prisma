@@ -129,6 +129,21 @@ model Report {
   createdAt          TimestamptzString @default(now())
   updatedAt          temporal.updatedAtString()
 }
+model Document {
+  id        Int      @id @default(autoincrement())
+  tenantId  Int
+  workerId  Int
+  name      String
+  type      String
+  fileUrl   String
+  issuedAt  TimestamptzString?
+  expiresAt TimestamptzString?
+  status    String
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+
 
 
 
