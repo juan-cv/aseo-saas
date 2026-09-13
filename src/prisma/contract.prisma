@@ -9,7 +9,8 @@ model Tenant {
   logoUrl   String?
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
-  users User[]
+  users     User[]
+  customers Customer[]
 }
 
 
@@ -30,6 +31,7 @@ model User {
 model Customer {
   id        Int      @id @default(autoincrement())
   tenantId  Int
+  tenant Tenant @relation(fields: [tenantId], references: [id])
   name      String
   rut       String?
   email     String?
@@ -38,6 +40,7 @@ model Customer {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
+
 model Location {
   id           Int      @id @default(autoincrement())
   tenantId     Int
