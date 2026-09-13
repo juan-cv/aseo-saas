@@ -24,6 +24,10 @@
       "model": "Location",
       "namespace": "public"
     },
+    "report": {
+      "model": "Report",
+      "namespace": "public"
+    },
     "scheduledService": {
       "model": "ScheduledService",
       "namespace": "public"
@@ -556,6 +560,77 @@
               },
               "namespaceId": "public",
               "table": "location"
+            }
+          },
+          "Report": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "fileUrl": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "generatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "scheduledServiceId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "fileUrl": {
+                  "column": "fileUrl"
+                },
+                "generatedAt": {
+                  "column": "generatedAt"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "scheduledServiceId": {
+                  "column": "scheduledServiceId"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                }
+              },
+              "namespaceId": "public",
+              "table": "report"
             }
           },
           "ScheduledService": {
@@ -1504,6 +1579,60 @@
               },
               "uniques": []
             },
+            "report": {
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "fileUrl": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "generatedAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "scheduledServiceId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
             "scheduledService": {
               "columns": {
                 "completedAt": {
@@ -1913,10 +2042,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "0ef75d145b4b5048162717b5b5827ad169d770482df6cdd4acd8f1b710ad9bea"
+    "storageHash": "1cff0c7cf4b8abc7cf04668f21c5852f1f471bc231a954ddbc1ca8173135df48"
   },
   "execution": {
-    "executionHash": "e3ac85a297b7502cda5e188ef5ab18de695a8d647035070dad84fe1058766871",
+    "executionHash": "ce592d8534d53124cc7f025f4a203457b7dcc8784350ab958b88b2ae0c8888ac",
     "mutations": {
       "defaults": [
         {
@@ -1992,6 +2121,21 @@
             "column": "updatedAt",
             "namespace": "public",
             "table": "location"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "column": "updatedAt",
+            "namespace": "public",
+            "table": "report"
           }
         },
         {

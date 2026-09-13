@@ -121,6 +121,14 @@ model ServiceObservation {
   createdAt          TimestamptzString @default(now())
   updatedAt          temporal.updatedAtString()
 }
+model Report {
+  id                 Int      @id @default(autoincrement())
+  scheduledServiceId Int
+  fileUrl            String
+  generatedAt        TimestamptzString @default(now())
+  createdAt          TimestamptzString @default(now())
+  updatedAt          temporal.updatedAtString()
+}
 
 
 
