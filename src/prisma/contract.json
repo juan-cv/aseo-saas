@@ -1454,6 +1454,21 @@
                   "model": "Tenant",
                   "namespace": "public"
                 }
+              },
+              "worker": {
+                "cardinality": "1:1",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "userId"
+                  ]
+                },
+                "to": {
+                  "model": "Worker",
+                  "namespace": "public"
+                }
               }
             },
             "storage": {
@@ -1558,6 +1573,13 @@
                   "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
+              },
+              "userId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
               }
             },
             "relations": {
@@ -1573,6 +1595,21 @@
                 },
                 "to": {
                   "model": "Tenant",
+                  "namespace": "public"
+                }
+              },
+              "user": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "userId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "User",
                   "namespace": "public"
                 }
               }
@@ -1608,6 +1645,9 @@
                 },
                 "updatedAt": {
                   "column": "updatedAt"
+                },
+                "userId": {
+                  "column": "userId"
                 }
               },
               "namespaceId": "public",
@@ -2652,6 +2692,11 @@
                   "codecId": "pg/timestamptz-string@1",
                   "nativeType": "timestamptz",
                   "nullable": false
+                },
+                "userId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
                 }
               },
               "foreignKeys": [
@@ -2670,6 +2715,22 @@
                     "namespaceId": "public",
                     "tableName": "tenant"
                   }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "userId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "worker"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
                 }
               ],
               "indexes": [
@@ -2687,7 +2748,13 @@
                   "id"
                 ]
               },
-              "uniques": []
+              "uniques": [
+                {
+                  "columns": [
+                    "userId"
+                  ]
+                }
+              ]
             }
           }
         },
@@ -2695,7 +2762,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "66d7a9a8055280fe3f40a86bca86b787b063c5c5972f6a55874f30cc3407ffef"
+    "storageHash": "e5fa4bfc3d53c9b05d1334835527d0c48f874ad7797ef89c54f5861cd21497e6"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",

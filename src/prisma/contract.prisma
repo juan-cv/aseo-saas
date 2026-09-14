@@ -29,7 +29,9 @@ model User {
   updatedAt    temporal.updatedAtString()
 
   tenant       Tenant @relation(fields: [tenantId], references: [id])
+  worker       Worker?
 }
+
 
 
 model Customer {
@@ -68,7 +70,9 @@ model Location {
 model Worker {
   id        Int      @id @default(autoincrement())
   tenantId  Int
-  tenant    Tenant @relation(fields: [tenantId], references: [id])
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  userId    Int?     @unique
+  user      User?    @relation(fields: [userId], references: [id])
   name      String
   rut       String
   phone     String?
