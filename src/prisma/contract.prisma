@@ -13,6 +13,7 @@ model Tenant {
   customers Customer[]
   locations Location[]
   workers   Worker[]
+  serviceTypes ServiceType[]
 }
 
 
@@ -83,15 +84,17 @@ model Worker {
   updatedAt temporal.updatedAtString()
 }
 model ServiceType {
-  id              Int      @id @default(autoincrement())
-  tenantId        Int
-  name            String
-  description     String?
+  id               Int      @id @default(autoincrement())
+  tenantId         Int
+  tenant           Tenant   @relation(fields: [tenantId], references: [id])
+  name             String
+  description      String?
   estimatedMinutes Int?
-  active          Boolean  @default(true)
-  createdAt       TimestamptzString @default(now())
-  updatedAt       temporal.updatedAtString()
+  active           Boolean  @default(true)
+  createdAt        TimestamptzString @default(now())
+  updatedAt        temporal.updatedAtString()
 }
+
 model ChecklistItem {
   id             Int      @id @default(autoincrement())
   serviceTypeId  Int

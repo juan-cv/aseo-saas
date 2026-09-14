@@ -1196,7 +1196,23 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "tenant": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "tenantId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Tenant",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "active": {
@@ -1315,6 +1331,21 @@
                 },
                 "to": {
                   "model": "Location",
+                  "namespace": "public"
+                }
+              },
+              "serviceTypes": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "tenantId"
+                  ]
+                },
+                "to": {
+                  "model": "ServiceType",
                   "namespace": "public"
                 }
               },
@@ -2464,8 +2495,34 @@
                   "nullable": false
                 }
               },
-              "foreignKeys": [],
-              "indexes": [],
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "tenantId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "serviceType"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "tenant"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "tenantId"
+                  ],
+                  "name": "serviceType_tenantId_idx_c93ed4f1",
+                  "prefix": "serviceType_tenantId_idx",
+                  "unique": false
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
@@ -2762,7 +2819,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "e5fa4bfc3d53c9b05d1334835527d0c48f874ad7797ef89c54f5861cd21497e6"
+    "storageHash": "fc4334969b1f26c360355716fae32a28ffb774e3caceeee0ff7b2f2a3b3f1165"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
