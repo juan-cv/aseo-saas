@@ -405,6 +405,21 @@
               }
             },
             "relations": {
+              "locations": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "customerId"
+                  ]
+                },
+                "to": {
+                  "model": "Location",
+                  "namespace": "public"
+                }
+              },
               "tenant": {
                 "cardinality": "N:1",
                 "on": {
@@ -759,6 +774,21 @@
               }
             },
             "relations": {
+              "customer": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "customerId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Customer",
+                  "namespace": "public"
+                }
+              },
               "tenant": {
                 "cardinality": "N:1",
                 "on": {
@@ -2076,9 +2106,33 @@
                     "namespaceId": "public",
                     "tableName": "tenant"
                   }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "customerId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "location"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "customer"
+                  }
                 }
               ],
               "indexes": [
+                {
+                  "columns": [
+                    "customerId"
+                  ],
+                  "name": "location_customerId_idx_b2a8a46c",
+                  "prefix": "location_customerId_idx",
+                  "unique": false
+                },
                 {
                   "columns": [
                     "tenantId"
@@ -2584,7 +2638,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "8e09b01c5c7ce1063e68a39da5ca722d59ff894f15067bedbdb4fd65e059c73f"
+    "storageHash": "7e25173e44aa6d3de282c9443b7459942c7565e0a48e7748598e9c70941b4d11"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",

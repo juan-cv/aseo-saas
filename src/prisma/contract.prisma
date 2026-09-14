@@ -34,6 +34,7 @@ model Customer {
   id        Int      @id @default(autoincrement())
   tenantId  Int
   tenant Tenant @relation(fields: [tenantId], references: [id])
+  locations Location[]
   name      String
   rut       String?
   email     String?
@@ -48,6 +49,7 @@ model Location {
   tenantId     Int
   tenant       Tenant @relation(fields: [tenantId], references: [id])
   customerId   Int
+  customer     Customer @relation(fields: [customerId], references: [id])
   name         String
   address      String
   commune      String?
