@@ -1132,6 +1132,21 @@
                   "model": "Tenant",
                   "namespace": "public"
                 }
+              },
+              "worker": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "workerId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Worker",
+                  "namespace": "public"
+                }
               }
             },
             "storage": {
@@ -1766,6 +1781,21 @@
               }
             },
             "relations": {
+              "scheduledServices": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "workerId"
+                  ]
+                },
+                "to": {
+                  "model": "ScheduledService",
+                  "namespace": "public"
+                }
+              },
               "tenant": {
                 "cardinality": "N:1",
                 "on": {
@@ -2628,6 +2658,22 @@
                     "namespaceId": "public",
                     "tableName": "serviceType"
                   }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "workerId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "scheduledService"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "worker"
+                  }
                 }
               ],
               "indexes": [
@@ -2661,6 +2707,14 @@
                   ],
                   "name": "scheduledService_tenantId_idx_c93ed4f1",
                   "prefix": "scheduledService_tenantId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "workerId"
+                  ],
+                  "name": "scheduledService_workerId_idx_0b8f3a7c",
+                  "prefix": "scheduledService_workerId_idx",
                   "unique": false
                 }
               ],
@@ -3095,7 +3149,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "db4fd96586f8c21da3cfe08a05ff39e3bc9b503e135e78de5f5a75a0e8070534"
+    "storageHash": "8678729a10b0f873cc12874db1b03310abc4c61c07c16e5162d42be11563c997"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
