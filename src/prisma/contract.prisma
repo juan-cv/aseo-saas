@@ -52,23 +52,26 @@ model Customer {
 
 
 model Location {
-  id           Int      @id @default(autoincrement())
-  tenantId     Int
-  tenant       Tenant @relation(fields: [tenantId], references: [id])
-  customerId   Int
-  customer     Customer @relation(fields: [customerId], references: [id])
-  name         String
-  address      String
-  commune      String?
-  contactName  String?
-  contactPhone String?
-  instructions String?
-  latitude     Float?
-  longitude    Float?
-  active       Boolean  @default(true)
-  createdAt    TimestamptzString @default(now())
-  updatedAt    temporal.updatedAtString()
+  id                Int                @id @default(autoincrement())
+  tenantId          Int
+  tenant            Tenant             @relation(fields: [tenantId], references: [id])
+  customerId        Int
+  customer          Customer            @relation(fields: [customerId], references: [id])
+  name              String
+  address           String
+  commune           String?
+  contactName       String?
+  contactPhone      String?
+  instructions      String?
+  latitude          Float?
+  longitude         Float?
+  active            Boolean            @default(true)
+  createdAt         TimestamptzString  @default(now())
+  updatedAt         temporal.updatedAtString()
+
+  scheduledServices ScheduledService[]
 }
+
 
 model Worker {
   id        Int      @id @default(autoincrement())
@@ -119,6 +122,7 @@ model ScheduledService {
   customerId    Int
   customer      Customer      @relation(fields: [customerId], references: [id])
   locationId    Int
+  location      Location @relation(fields: [locationId], references: [id])
   serviceTypeId Int
   workerId      Int?
   scheduledDate String

@@ -820,6 +820,21 @@
                   "namespace": "public"
                 }
               },
+              "scheduledServices": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "locationId"
+                  ]
+                },
+                "to": {
+                  "model": "ScheduledService",
+                  "namespace": "public"
+                }
+              },
               "tenant": {
                 "cardinality": "N:1",
                 "on": {
@@ -1070,6 +1085,21 @@
                 },
                 "to": {
                   "model": "Customer",
+                  "namespace": "public"
+                }
+              },
+              "location": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "locationId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Location",
                   "namespace": "public"
                 }
               },
@@ -2536,6 +2566,22 @@
                     "namespaceId": "public",
                     "tableName": "customer"
                   }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "locationId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "scheduledService"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "location"
+                  }
                 }
               ],
               "indexes": [
@@ -2545,6 +2591,14 @@
                   ],
                   "name": "scheduledService_customerId_idx_b2a8a46c",
                   "prefix": "scheduledService_customerId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "locationId"
+                  ],
+                  "name": "scheduledService_locationId_idx_7aae3038",
+                  "prefix": "scheduledService_locationId_idx",
                   "unique": false
                 },
                 {
@@ -2987,7 +3041,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "0aa3ca5f033411174c6fa613936f557aaccf985906fc10c32ef885544cf309a6"
+    "storageHash": "9a0e2203cfff529fa0f5a2c753bf2518e41b3cab32a2f357485bcbbf44afefb7"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
