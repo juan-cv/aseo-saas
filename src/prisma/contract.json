@@ -1042,7 +1042,23 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "tenant": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "tenantId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Tenant",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "completedAt": {
@@ -1362,6 +1378,21 @@
                 },
                 "to": {
                   "model": "Location",
+                  "namespace": "public"
+                }
+              },
+              "scheduledServices": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "tenantId"
+                  ]
+                },
+                "to": {
+                  "model": "ScheduledService",
                   "namespace": "public"
                 }
               },
@@ -2443,8 +2474,34 @@
                   "nullable": true
                 }
               },
-              "foreignKeys": [],
-              "indexes": [],
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "tenantId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "scheduledService"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "tenant"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "tenantId"
+                  ],
+                  "name": "scheduledService_tenantId_idx_c93ed4f1",
+                  "prefix": "scheduledService_tenantId_idx",
+                  "unique": false
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
@@ -2876,7 +2933,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "bd3a420cffa671a105283dae990efbed7b50060c5275adbb308e65600a5e8286"
+    "storageHash": "840f943ed5099d8a926e74e7933471af5ab5b55342bc33a1077bda253520dfd6"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",

@@ -14,7 +14,9 @@ model Tenant {
   locations Location[]
   workers   Worker[]
   serviceTypes ServiceType[]
+  scheduledServices ScheduledService[]
 }
+
 
 
 
@@ -113,6 +115,7 @@ model ChecklistItem {
 model ScheduledService {
   id            Int      @id @default(autoincrement())
   tenantId      Int
+  tenant       Tenant @relation(fields: [tenantId], references: [id])
   customerId    Int
   locationId    Int
   serviceTypeId Int
