@@ -20,36 +20,36 @@ model Tenant {
 
 
 
-
 model User {
-  id           Int      @id @default(autoincrement())
+  id           Int                @id @default(autoincrement())
   tenantId     Int
   email        String
   passwordHash String
   role         String
-  active       Boolean  @default(true)
-  createdAt    TimestamptzString @default(now())
+  active       Boolean            @default(true)
+  createdAt    TimestamptzString  @default(now())
   updatedAt    temporal.updatedAtString()
 
-  tenant       Tenant @relation(fields: [tenantId], references: [id])
+  tenant       Tenant             @relation(fields: [tenantId], references: [id])
   worker       Worker?
 }
 
 
-
 model Customer {
-  id        Int      @id @default(autoincrement())
-  tenantId  Int
-  tenant Tenant @relation(fields: [tenantId], references: [id])
-  locations Location[]
-  name      String
-  rut       String?
-  email     String?
-  phone     String?
-  active    Boolean  @default(true)
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+  id                Int                @id @default(autoincrement())
+  tenantId          Int
+  tenant            Tenant             @relation(fields: [tenantId], references: [id])
+  locations         Location[]
+  scheduledServices ScheduledService[]
+  name              String
+  rut               String?
+  email             String?
+  phone             String?
+  active            Boolean            @default(true)
+  createdAt         TimestamptzString   @default(now())
+  updatedAt         temporal.updatedAtString()
 }
+
 
 model Location {
   id           Int      @id @default(autoincrement())
@@ -113,10 +113,11 @@ model ChecklistItem {
 }
 
 model ScheduledService {
-  id            Int      @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   tenantId      Int
-  tenant       Tenant @relation(fields: [tenantId], references: [id])
+  tenant        Tenant       @relation(fields: [tenantId], references: [id])
   customerId    Int
+  customer      Customer      @relation(fields: [customerId], references: [id])
   locationId    Int
   serviceTypeId Int
   workerId      Int?
@@ -129,6 +130,7 @@ model ScheduledService {
   createdAt     TimestamptzString @default(now())
   updatedAt     temporal.updatedAtString()
 }
+
 model ChecklistAnswer {
   id                 Int      @id @default(autoincrement())
   scheduledServiceId Int

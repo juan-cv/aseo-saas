@@ -436,6 +436,21 @@
                   "namespace": "public"
                 }
               },
+              "scheduledServices": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "customerId"
+                  ]
+                },
+                "to": {
+                  "model": "ScheduledService",
+                  "namespace": "public"
+                }
+              },
               "tenant": {
                 "cardinality": "N:1",
                 "on": {
@@ -1043,6 +1058,21 @@
               }
             },
             "relations": {
+              "customer": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "customerId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Customer",
+                  "namespace": "public"
+                }
+              },
               "tenant": {
                 "cardinality": "N:1",
                 "on": {
@@ -2490,9 +2520,33 @@
                     "namespaceId": "public",
                     "tableName": "tenant"
                   }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "customerId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "scheduledService"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "customer"
+                  }
                 }
               ],
               "indexes": [
+                {
+                  "columns": [
+                    "customerId"
+                  ],
+                  "name": "scheduledService_customerId_idx_b2a8a46c",
+                  "prefix": "scheduledService_customerId_idx",
+                  "unique": false
+                },
                 {
                   "columns": [
                     "tenantId"
@@ -2933,7 +2987,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "840f943ed5099d8a926e74e7933471af5ab5b55342bc33a1077bda253520dfd6"
+    "storageHash": "0aa3ca5f033411174c6fa613936f557aaccf985906fc10c32ef885544cf309a6"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
