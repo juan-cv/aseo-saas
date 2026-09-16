@@ -93,11 +93,14 @@ model ServiceType {
   active           Boolean  @default(true)
   createdAt        TimestamptzString @default(now())
   updatedAt        temporal.updatedAtString()
+  checklistItems ChecklistItem[]
 }
+
 
 model ChecklistItem {
   id             Int      @id @default(autoincrement())
   serviceTypeId  Int
+  serviceType    ServiceType @relation(fields: [serviceTypeId], references: [id])
   label          String
   type           String
   required       Boolean  @default(false)
@@ -106,6 +109,7 @@ model ChecklistItem {
   createdAt      TimestamptzString @default(now())
   updatedAt      temporal.updatedAtString()
 }
+
 model ScheduledService {
   id            Int      @id @default(autoincrement())
   tenantId      Int
