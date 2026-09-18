@@ -15,7 +15,9 @@ model Tenant {
   workers   Worker[]
   serviceTypes ServiceType[]
   scheduledServices ScheduledService[]
+  documents Document[]
 }
+
 
 
 
@@ -195,10 +197,10 @@ model Report {
   createdAt          TimestamptzString @default(now())
   updatedAt          temporal.updatedAtString()
 }
-
 model Document {
   id        Int      @id @default(autoincrement())
   tenantId  Int
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
   workerId  Int
   name      String
   type      String
@@ -209,6 +211,10 @@ model Document {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
+
+
+
+
 model AuditLog {
   id        Int      @id @default(autoincrement())
   tenantId  Int
