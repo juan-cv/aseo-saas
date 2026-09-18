@@ -109,17 +109,20 @@ model ServiceType {
 
 
 model ChecklistItem {
-  id             Int      @id @default(autoincrement())
-  serviceTypeId  Int
-  serviceType    ServiceType @relation(fields: [serviceTypeId], references: [id])
-  label          String
-  type           String
-  required       Boolean  @default(false)
-  sortOrder      Int
-  requiresPhoto  Boolean  @default(false)
-  createdAt      TimestamptzString @default(now())
-  updatedAt      temporal.updatedAtString()
+  id                Int                @id @default(autoincrement())
+  serviceTypeId     Int
+  serviceType       ServiceType        @relation(fields: [serviceTypeId], references: [id])
+  label             String
+  type              String
+  required          Boolean            @default(false)
+  sortOrder         Int
+  requiresPhoto     Boolean            @default(false)
+  createdAt         TimestamptzString @default(now())
+  updatedAt         temporal.updatedAtString()
+
+  checklistAnswers  ChecklistAnswer[]
 }
+
 
 model ScheduledService {
   id            Int                @id @default(autoincrement())
@@ -150,6 +153,7 @@ model ChecklistAnswer {
   scheduledServiceId Int
   scheduledService   ScheduledService   @relation(fields: [scheduledServiceId], references: [id])
   checklistItemId    Int
+  checklistItem      ChecklistItem @relation(fields: [checklistItemId], references: [id])
   value              String?
   createdAt          TimestamptzString @default(now())
   updatedAt          temporal.updatedAtString()

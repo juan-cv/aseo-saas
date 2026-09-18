@@ -212,6 +212,21 @@
               }
             },
             "relations": {
+              "checklistItem": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "checklistItemId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "ChecklistItem",
+                  "namespace": "public"
+                }
+              },
               "scheduledService": {
                 "cardinality": "N:1",
                 "on": {
@@ -320,6 +335,21 @@
               }
             },
             "relations": {
+              "checklistAnswers": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "checklistItemId"
+                  ]
+                },
+                "to": {
+                  "model": "ChecklistAnswer",
+                  "namespace": "public"
+                }
+              },
               "serviceType": {
                 "cardinality": "N:1",
                 "on": {
@@ -2029,9 +2059,33 @@
                     "namespaceId": "public",
                     "tableName": "scheduledService"
                   }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "checklistItemId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "checklistAnswer"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "checklistItem"
+                  }
                 }
               ],
               "indexes": [
+                {
+                  "columns": [
+                    "checklistItemId"
+                  ],
+                  "name": "checklistAnswer_checklistItemId_idx_93aa93e9",
+                  "prefix": "checklistAnswer_checklistItemId_idx",
+                  "unique": false
+                },
                 {
                   "columns": [
                     "scheduledServiceId"
@@ -3206,7 +3260,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "597ed821e069343d5464c3304a7768736202d6ce135404c19864f84721204dad"
+    "storageHash": "4534de65b3492f4632e0986ba60c5fa0e770905b1d2c185ea0ed51dea85d3242"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
