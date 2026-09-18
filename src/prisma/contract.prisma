@@ -16,6 +16,7 @@ model Tenant {
   serviceTypes ServiceType[]
   scheduledServices ScheduledService[]
   documents Document[]
+  auditLogs AuditLog[]
 }
 
 
@@ -220,6 +221,7 @@ model Document {
 model AuditLog {
   id        Int      @id @default(autoincrement())
   tenantId  Int
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
   userId    Int?
   action    String
   entity    String
@@ -228,8 +230,6 @@ model AuditLog {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
-
-
 
 
 

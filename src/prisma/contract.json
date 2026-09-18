@@ -131,7 +131,23 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "tenant": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "tenantId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Tenant",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "action": {
@@ -1641,6 +1657,21 @@
               }
             },
             "relations": {
+              "auditLogs": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "tenantId"
+                  ]
+                },
+                "to": {
+                  "model": "AuditLog",
+                  "namespace": "public"
+                }
+              },
               "customers": {
                 "cardinality": "1:N",
                 "on": {
@@ -2147,8 +2178,34 @@
                   "nullable": true
                 }
               },
-              "foreignKeys": [],
-              "indexes": [],
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "tenantId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "auditLog"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "tenant"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "tenantId"
+                  ],
+                  "name": "auditLog_tenantId_idx_c93ed4f1",
+                  "prefix": "auditLog_tenantId_idx",
+                  "unique": false
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
@@ -3542,7 +3599,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "af84f00d70801a19101b8e927ecdd793fd7cf1dd2fa6b5c96d2427a760a727bc"
+    "storageHash": "567654bac0d227d1d2f92b7673fb0f9d58bcc0e75fa11379e07d1d183acae09e"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
