@@ -146,6 +146,21 @@
                   "model": "Tenant",
                   "namespace": "public"
                 }
+              },
+              "user": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "userId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
               }
             },
             "storage": {
@@ -1869,6 +1884,21 @@
               }
             },
             "relations": {
+              "auditLogs": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "userId"
+                  ]
+                },
+                "to": {
+                  "model": "AuditLog",
+                  "namespace": "public"
+                }
+              },
               "tenant": {
                 "cardinality": "N:1",
                 "on": {
@@ -2194,6 +2224,22 @@
                     "namespaceId": "public",
                     "tableName": "tenant"
                   }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "userId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "auditLog"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
                 }
               ],
               "indexes": [
@@ -2203,6 +2249,14 @@
                   ],
                   "name": "auditLog_tenantId_idx_c93ed4f1",
                   "prefix": "auditLog_tenantId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "userId"
+                  ],
+                  "name": "auditLog_userId_idx_a489d58a",
+                  "prefix": "auditLog_userId_idx",
                   "unique": false
                 }
               ],
@@ -3599,7 +3653,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "567654bac0d227d1d2f92b7673fb0f9d58bcc0e75fa11379e07d1d183acae09e"
+    "storageHash": "573468c29b131376c881d22ae377b268ce0e69edd4cd7cf9a55f4dfa8f20c528"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
