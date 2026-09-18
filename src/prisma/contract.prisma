@@ -1,4 +1,11 @@
 // use prisma-next
+enum UserRole {
+  OWNER
+  ADMIN
+  SUPERVISOR
+  WORKER
+}
+
 
 model Tenant {
   id        Int      @id @default(autoincrement())
@@ -28,7 +35,7 @@ model User {
   tenantId     Int
   email        String
   passwordHash String
-  role         String
+  role UserRole
   active       Boolean            @default(true)
   createdAt    TimestamptzString  @default(now())
   updatedAt    temporal.updatedAtString()

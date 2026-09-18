@@ -64,6 +64,29 @@
   "domain": {
     "namespaces": {
       "public": {
+        "enum": {
+          "UserRole": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "OWNER",
+                "value": "OWNER"
+              },
+              {
+                "name": "ADMIN",
+                "value": "ADMIN"
+              },
+              {
+                "name": "SUPERVISOR",
+                "value": "SUPERVISOR"
+              },
+              {
+                "name": "WORKER",
+                "value": "WORKER"
+              }
+            ]
+          }
+        },
         "models": {
           "AuditLog": {
             "fields": {
@@ -1866,6 +1889,12 @@
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "UserRole",
+                  "namespaceId": "public",
+                  "plane": "domain"
                 }
               },
               "tenantId": {
@@ -3431,6 +3460,13 @@
               ]
             },
             "user": {
+              "checks": [
+                {
+                  "expression": "\"role\" IN ('OWNER', 'ADMIN', 'SUPERVISOR', 'WORKER')",
+                  "name": "user_role_check_805e96b5",
+                  "prefix": "user_role_check"
+                }
+              ],
               "columns": {
                 "active": {
                   "codecId": "pg/bool@1",
@@ -3472,7 +3508,13 @@
                 "role": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
-                  "nullable": false
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "UserRole",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
                 },
                 "tenantId": {
                   "codecId": "pg/int4@1",
@@ -3654,13 +3696,24 @@
                 }
               ]
             }
+          },
+          "valueSet": {
+            "UserRole": {
+              "kind": "valueSet",
+              "values": [
+                "OWNER",
+                "ADMIN",
+                "SUPERVISOR",
+                "WORKER"
+              ]
+            }
           }
         },
         "id": "public",
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "dee8f835b009aeb7c7d60ae555a2229f75fa630697cd598183040303a7e213bf"
+    "storageHash": "1bbb4f8d65643c7753c9422de5625fc839419bfa4b601846ac500d9b234d4c11"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
