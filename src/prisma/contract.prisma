@@ -146,7 +146,9 @@ model ScheduledService {
   updatedAt     temporal.updatedAtString()
 
   checklistAnswers ChecklistAnswer[]
+  evidences        Evidence[]
 }
+
 
 model ChecklistAnswer {
   id                 Int                @id @default(autoincrement())
@@ -160,14 +162,16 @@ model ChecklistAnswer {
 }
 
 model Evidence {
-  id                 Int      @id @default(autoincrement())
+  id                 Int               @id @default(autoincrement())
   scheduledServiceId Int
+  scheduledService   ScheduledService  @relation(fields: [scheduledServiceId], references: [id])
   type               String
   fileUrl            String
   description        String?
   createdAt          TimestamptzString @default(now())
   updatedAt          temporal.updatedAtString()
 }
+
 model ServiceObservation {
   id                 Int      @id @default(autoincrement())
   scheduledServiceId Int

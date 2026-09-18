@@ -720,7 +720,23 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "scheduledService": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "scheduledServiceId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "ScheduledService",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "createdAt": {
@@ -1146,6 +1162,21 @@
                 },
                 "to": {
                   "model": "Customer",
+                  "namespace": "public"
+                }
+              },
+              "evidences": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "scheduledServiceId"
+                  ]
+                },
+                "to": {
+                  "model": "Evidence",
                   "namespace": "public"
                 }
               },
@@ -2417,8 +2448,34 @@
                   "nullable": false
                 }
               },
-              "foreignKeys": [],
-              "indexes": [],
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "scheduledServiceId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "evidence"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "scheduledService"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "scheduledServiceId"
+                  ],
+                  "name": "evidence_scheduledServiceId_idx_3974c425",
+                  "prefix": "evidence_scheduledServiceId_idx",
+                  "unique": false
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
@@ -3260,7 +3317,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "4534de65b3492f4632e0986ba60c5fa0e770905b1d2c185ea0ed51dea85d3242"
+    "storageHash": "b2e30c7622e952fa363f7c9e09cb96da58c77509df3125172a71ff2fe15eb973"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
