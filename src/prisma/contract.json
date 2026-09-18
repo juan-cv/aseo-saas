@@ -1007,7 +1007,23 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "scheduledService": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "scheduledServiceId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "ScheduledService",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "createdAt": {
@@ -1207,6 +1223,21 @@
                 },
                 "to": {
                   "model": "ServiceObservation",
+                  "namespace": "public"
+                }
+              },
+              "reports": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "scheduledServiceId"
+                  ]
+                },
+                "to": {
+                  "model": "Report",
                   "namespace": "public"
                 }
               },
@@ -2703,8 +2734,34 @@
                   "nullable": false
                 }
               },
-              "foreignKeys": [],
-              "indexes": [],
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "scheduledServiceId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "report"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "scheduledService"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "scheduledServiceId"
+                  ],
+                  "name": "report_scheduledServiceId_idx_3974c425",
+                  "prefix": "report_scheduledServiceId_idx",
+                  "unique": false
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
@@ -3374,7 +3431,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "1d9178b99c1ea0ef00c1f87a4201614adde379d0f7be6b5b4172cca5271fa14c"
+    "storageHash": "779b7bd13bb9c193fa11faace493123c9359bc7d5e9080173a2d17deb79e0410"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",

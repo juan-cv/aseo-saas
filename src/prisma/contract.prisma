@@ -148,7 +148,9 @@ model ScheduledService {
   checklistAnswers ChecklistAnswer[]
   evidences        Evidence[]
   observations     ServiceObservation[]
+  reports          Report[]
 }
+
 
 
 
@@ -185,13 +187,15 @@ model ServiceObservation {
 
 
 model Report {
-  id                 Int      @id @default(autoincrement())
+  id                 Int               @id @default(autoincrement())
   scheduledServiceId Int
+  scheduledService   ScheduledService  @relation(fields: [scheduledServiceId], references: [id])
   fileUrl            String
   generatedAt        TimestamptzString @default(now())
   createdAt          TimestamptzString @default(now())
   updatedAt          temporal.updatedAtString()
 }
+
 model Document {
   id        Int      @id @default(autoincrement())
   tenantId  Int
