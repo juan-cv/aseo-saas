@@ -1195,6 +1195,21 @@
                   "namespace": "public"
                 }
               },
+              "observations": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "scheduledServiceId"
+                  ]
+                },
+                "to": {
+                  "model": "ServiceObservation",
+                  "namespace": "public"
+                }
+              },
               "serviceType": {
                 "cardinality": "N:1",
                 "on": {
@@ -1328,7 +1343,23 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "scheduledService": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "scheduledServiceId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "ScheduledService",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "createdAt": {
@@ -2929,8 +2960,34 @@
                   "nullable": false
                 }
               },
-              "foreignKeys": [],
-              "indexes": [],
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "scheduledServiceId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "serviceObservation"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "scheduledService"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "scheduledServiceId"
+                  ],
+                  "name": "serviceObservation_scheduledServiceId_idx_3974c425",
+                  "prefix": "serviceObservation_scheduledServiceId_idx",
+                  "unique": false
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
@@ -3317,7 +3374,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "b2e30c7622e952fa363f7c9e09cb96da58c77509df3125172a71ff2fe15eb973"
+    "storageHash": "1d9178b99c1ea0ef00c1f87a4201614adde379d0f7be6b5b4172cca5271fa14c"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",
