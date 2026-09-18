@@ -122,35 +122,39 @@ model ChecklistItem {
 }
 
 model ScheduledService {
-  id            Int           @id @default(autoincrement())
+  id            Int                @id @default(autoincrement())
   tenantId      Int
-  tenant        Tenant       @relation(fields: [tenantId], references: [id])
+  tenant        Tenant             @relation(fields: [tenantId], references: [id])
   customerId    Int
-  customer      Customer      @relation(fields: [customerId], references: [id])
+  customer      Customer           @relation(fields: [customerId], references: [id])
   locationId    Int
-  location      Location @relation(fields: [locationId], references: [id])
+  location      Location           @relation(fields: [locationId], references: [id])
   serviceTypeId Int
-  serviceType ServiceType @relation(fields: [serviceTypeId], references: [id])
+  serviceType   ServiceType        @relation(fields: [serviceTypeId], references: [id])
   workerId      Int?
-  worker        Worker? @relation(fields: [workerId], references: [id])
+  worker        Worker?            @relation(fields: [workerId], references: [id])
   scheduledDate String
   startTime     String?
   endTime       String?
   status        String
   startedAt     TimestamptzString?
   completedAt   TimestamptzString?
-  createdAt     TimestamptzString @default(now())
+  createdAt     TimestamptzString  @default(now())
   updatedAt     temporal.updatedAtString()
+
+  checklistAnswers ChecklistAnswer[]
 }
 
 model ChecklistAnswer {
-  id                 Int      @id @default(autoincrement())
+  id                 Int                @id @default(autoincrement())
   scheduledServiceId Int
+  scheduledService   ScheduledService   @relation(fields: [scheduledServiceId], references: [id])
   checklistItemId    Int
   value              String?
   createdAt          TimestamptzString @default(now())
   updatedAt          temporal.updatedAtString()
 }
+
 model Evidence {
   id                 Int      @id @default(autoincrement())
   scheduledServiceId Int
