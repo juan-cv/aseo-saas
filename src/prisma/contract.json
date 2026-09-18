@@ -157,6 +157,7 @@
             "relations": {
               "tenant": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "tenantId"
@@ -172,6 +173,7 @@
               },
               "user": {
                 "cardinality": "N:1",
+                "nullable": true,
                 "on": {
                   "localFields": [
                     "userId"
@@ -268,6 +270,7 @@
             "relations": {
               "checklistItem": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "checklistItemId"
@@ -283,6 +286,7 @@
               },
               "scheduledService": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "scheduledServiceId"
@@ -406,6 +410,7 @@
               },
               "serviceType": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "serviceTypeId"
@@ -553,6 +558,7 @@
               },
               "tenant": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "tenantId"
@@ -684,6 +690,7 @@
             "relations": {
               "tenant": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "tenantId"
@@ -699,6 +706,7 @@
               },
               "worker": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "workerId"
@@ -808,6 +816,7 @@
             "relations": {
               "scheduledService": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "scheduledServiceId"
@@ -954,6 +963,7 @@
             "relations": {
               "customer": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "customerId"
@@ -984,6 +994,7 @@
               },
               "tenant": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "tenantId"
@@ -1095,6 +1106,7 @@
             "relations": {
               "scheduledService": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "scheduledServiceId"
@@ -1253,6 +1265,7 @@
               },
               "customer": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "customerId"
@@ -1283,6 +1296,7 @@
               },
               "location": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "locationId"
@@ -1328,6 +1342,7 @@
               },
               "serviceType": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "serviceTypeId"
@@ -1343,6 +1358,7 @@
               },
               "tenant": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "tenantId"
@@ -1358,6 +1374,7 @@
               },
               "worker": {
                 "cardinality": "N:1",
+                "nullable": true,
                 "on": {
                   "localFields": [
                     "workerId"
@@ -1462,6 +1479,7 @@
             "relations": {
               "scheduledService": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "scheduledServiceId"
@@ -1590,6 +1608,7 @@
               },
               "tenant": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "tenantId"
@@ -1930,6 +1949,7 @@
               },
               "tenant": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "tenantId"
@@ -1945,6 +1965,7 @@
               },
               "worker": {
                 "cardinality": "1:1",
+                "nullable": true,
                 "on": {
                   "localFields": [
                     "id"
@@ -2103,6 +2124,7 @@
               },
               "tenant": {
                 "cardinality": "N:1",
+                "nullable": false,
                 "on": {
                   "localFields": [
                     "tenantId"
@@ -2118,6 +2140,7 @@
               },
               "user": {
                 "cardinality": "N:1",
+                "nullable": true,
                 "on": {
                   "localFields": [
                     "userId"
