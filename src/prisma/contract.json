@@ -642,6 +642,21 @@
                   "model": "Tenant",
                   "namespace": "public"
                 }
+              },
+              "worker": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "workerId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Worker",
+                  "namespace": "public"
+                }
               }
             },
             "storage": {
@@ -1966,6 +1981,21 @@
               }
             },
             "relations": {
+              "documents": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "workerId"
+                  ]
+                },
+                "to": {
+                  "model": "Document",
+                  "namespace": "public"
+                }
+              },
               "scheduledServices": {
                 "cardinality": "1:N",
                 "on": {
@@ -2502,6 +2532,22 @@
                     "namespaceId": "public",
                     "tableName": "tenant"
                   }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "workerId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "document"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "worker"
+                  }
                 }
               ],
               "indexes": [
@@ -2511,6 +2557,14 @@
                   ],
                   "name": "document_tenantId_idx_c93ed4f1",
                   "prefix": "document_tenantId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "workerId"
+                  ],
+                  "name": "document_workerId_idx_0b8f3a7c",
+                  "prefix": "document_workerId_idx",
                   "unique": false
                 }
               ],
@@ -3488,7 +3542,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "71543aefb0dfe0b4ba104dd4ab89643d68c009dd470366478c56449b69bdf645"
+    "storageHash": "af84f00d70801a19101b8e927ecdd793fd7cf1dd2fa6b5c96d2427a760a727bc"
   },
   "execution": {
     "executionHash": "40ac64105b7859aaa93a5de4d14b945ccedeff005a9c23c2723cb4f9bbb1fba1",

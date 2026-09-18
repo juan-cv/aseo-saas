@@ -91,7 +91,9 @@ model Worker {
   updatedAt         temporal.updatedAtString()
 
   scheduledServices ScheduledService[]
+  documents Document[]
 }
+
 
 model ServiceType {
   id                Int                @id @default(autoincrement())
@@ -202,6 +204,7 @@ model Document {
   tenantId  Int
   tenant    Tenant   @relation(fields: [tenantId], references: [id])
   workerId  Int
+  worker    Worker   @relation(fields: [workerId], references: [id])
   name      String
   type      String
   fileUrl   String
@@ -211,7 +214,6 @@ model Document {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
-
 
 
 
