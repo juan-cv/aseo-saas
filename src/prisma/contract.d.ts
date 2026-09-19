@@ -868,6 +868,257 @@ export type StorageColumnInputTypes = {
     };
   };
 };
+
+export namespace Models {
+  export type public_Tenant = {
+    id: CodecTypes['pg/int4@1']['output'];
+    name: CodecTypes['pg/text@1']['output'];
+    rut: CodecTypes['pg/text@1']['output'];
+    email: CodecTypes['pg/text@1']['output'];
+    phone: CodecTypes['pg/text@1']['output'] | null;
+    logoUrl: CodecTypes['pg/text@1']['output'] | null;
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    auditLogs: public_AuditLog[];
+    customers: public_Customer[];
+    documents: public_Document[];
+    locations: public_Location[];
+    scheduledServices: public_ScheduledService[];
+    serviceTypes: public_ServiceType[];
+    users: public_User[];
+    workers: public_Worker[];
+    readonly [RelationKeys]?:
+      | 'auditLogs'
+      | 'customers'
+      | 'documents'
+      | 'locations'
+      | 'scheduledServices'
+      | 'serviceTypes'
+      | 'users'
+      | 'workers';
+  };
+  export type public_User = {
+    id: CodecTypes['pg/int4@1']['output'];
+    tenantId: CodecTypes['pg/int4@1']['output'];
+    email: CodecTypes['pg/text@1']['output'];
+    passwordHash: CodecTypes['pg/text@1']['output'];
+    role: 'OWNER' | 'ADMIN' | 'SUPERVISOR' | 'WORKER';
+    active: CodecTypes['pg/bool@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    auditLogs: public_AuditLog[];
+    tenant: public_Tenant;
+    worker: public_Worker | null;
+    readonly [RelationKeys]?: 'auditLogs' | 'tenant' | 'worker';
+  };
+  export type public_Customer = {
+    id: CodecTypes['pg/int4@1']['output'];
+    tenantId: CodecTypes['pg/int4@1']['output'];
+    name: CodecTypes['pg/text@1']['output'];
+    rut: CodecTypes['pg/text@1']['output'] | null;
+    email: CodecTypes['pg/text@1']['output'] | null;
+    phone: CodecTypes['pg/text@1']['output'] | null;
+    active: CodecTypes['pg/bool@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    locations: public_Location[];
+    scheduledServices: public_ScheduledService[];
+    tenant: public_Tenant;
+    readonly [RelationKeys]?: 'locations' | 'scheduledServices' | 'tenant';
+  };
+  export type public_Location = {
+    id: CodecTypes['pg/int4@1']['output'];
+    tenantId: CodecTypes['pg/int4@1']['output'];
+    customerId: CodecTypes['pg/int4@1']['output'];
+    name: CodecTypes['pg/text@1']['output'];
+    address: CodecTypes['pg/text@1']['output'];
+    commune: CodecTypes['pg/text@1']['output'] | null;
+    contactName: CodecTypes['pg/text@1']['output'] | null;
+    contactPhone: CodecTypes['pg/text@1']['output'] | null;
+    instructions: CodecTypes['pg/text@1']['output'] | null;
+    latitude: CodecTypes['pg/float8@1']['output'] | null;
+    longitude: CodecTypes['pg/float8@1']['output'] | null;
+    active: CodecTypes['pg/bool@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    customer: public_Customer;
+    scheduledServices: public_ScheduledService[];
+    tenant: public_Tenant;
+    readonly [RelationKeys]?: 'customer' | 'scheduledServices' | 'tenant';
+  };
+  export type public_Worker = {
+    id: CodecTypes['pg/int4@1']['output'];
+    tenantId: CodecTypes['pg/int4@1']['output'];
+    userId: CodecTypes['pg/int4@1']['output'] | null;
+    name: CodecTypes['pg/text@1']['output'];
+    rut: CodecTypes['pg/text@1']['output'];
+    phone: CodecTypes['pg/text@1']['output'] | null;
+    email: CodecTypes['pg/text@1']['output'] | null;
+    position: CodecTypes['pg/text@1']['output'] | null;
+    active: CodecTypes['pg/bool@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    documents: public_Document[];
+    scheduledServices: public_ScheduledService[];
+    tenant: public_Tenant;
+    user: public_User | null;
+    readonly [RelationKeys]?: 'documents' | 'scheduledServices' | 'tenant' | 'user';
+  };
+  export type public_ServiceType = {
+    id: CodecTypes['pg/int4@1']['output'];
+    tenantId: CodecTypes['pg/int4@1']['output'];
+    name: CodecTypes['pg/text@1']['output'];
+    description: CodecTypes['pg/text@1']['output'] | null;
+    estimatedMinutes: CodecTypes['pg/int4@1']['output'] | null;
+    active: CodecTypes['pg/bool@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    checklistItems: public_ChecklistItem[];
+    scheduledServices: public_ScheduledService[];
+    tenant: public_Tenant;
+    readonly [RelationKeys]?: 'checklistItems' | 'scheduledServices' | 'tenant';
+  };
+  export type public_ChecklistItem = {
+    id: CodecTypes['pg/int4@1']['output'];
+    serviceTypeId: CodecTypes['pg/int4@1']['output'];
+    label: CodecTypes['pg/text@1']['output'];
+    type: CodecTypes['pg/text@1']['output'];
+    required: CodecTypes['pg/bool@1']['output'];
+    sortOrder: CodecTypes['pg/int4@1']['output'];
+    requiresPhoto: CodecTypes['pg/bool@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    checklistAnswers: public_ChecklistAnswer[];
+    serviceType: public_ServiceType;
+    readonly [RelationKeys]?: 'checklistAnswers' | 'serviceType';
+  };
+  export type public_ScheduledService = {
+    id: CodecTypes['pg/int4@1']['output'];
+    tenantId: CodecTypes['pg/int4@1']['output'];
+    customerId: CodecTypes['pg/int4@1']['output'];
+    locationId: CodecTypes['pg/int4@1']['output'];
+    serviceTypeId: CodecTypes['pg/int4@1']['output'];
+    workerId: CodecTypes['pg/int4@1']['output'] | null;
+    scheduledDate: CodecTypes['pg/text@1']['output'];
+    startTime: CodecTypes['pg/text@1']['output'] | null;
+    endTime: CodecTypes['pg/text@1']['output'] | null;
+    status: CodecTypes['pg/text@1']['output'];
+    startedAt: CodecTypes['pg/timestamptz-string@1']['output'] | null;
+    completedAt: CodecTypes['pg/timestamptz-string@1']['output'] | null;
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    checklistAnswers: public_ChecklistAnswer[];
+    customer: public_Customer;
+    evidences: public_Evidence[];
+    location: public_Location;
+    observations: public_ServiceObservation[];
+    reports: public_Report[];
+    serviceType: public_ServiceType;
+    tenant: public_Tenant;
+    worker: public_Worker | null;
+    readonly [RelationKeys]?:
+      | 'checklistAnswers'
+      | 'customer'
+      | 'evidences'
+      | 'location'
+      | 'observations'
+      | 'reports'
+      | 'serviceType'
+      | 'tenant'
+      | 'worker';
+  };
+  export type public_ChecklistAnswer = {
+    id: CodecTypes['pg/int4@1']['output'];
+    scheduledServiceId: CodecTypes['pg/int4@1']['output'];
+    checklistItemId: CodecTypes['pg/int4@1']['output'];
+    value: CodecTypes['pg/text@1']['output'] | null;
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    checklistItem: public_ChecklistItem;
+    scheduledService: public_ScheduledService;
+    readonly [RelationKeys]?: 'checklistItem' | 'scheduledService';
+  };
+  export type public_Evidence = {
+    id: CodecTypes['pg/int4@1']['output'];
+    scheduledServiceId: CodecTypes['pg/int4@1']['output'];
+    type: CodecTypes['pg/text@1']['output'];
+    fileUrl: CodecTypes['pg/text@1']['output'];
+    description: CodecTypes['pg/text@1']['output'] | null;
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    scheduledService: public_ScheduledService;
+    readonly [RelationKeys]?: 'scheduledService';
+  };
+  export type public_ServiceObservation = {
+    id: CodecTypes['pg/int4@1']['output'];
+    scheduledServiceId: CodecTypes['pg/int4@1']['output'];
+    text: CodecTypes['pg/text@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    scheduledService: public_ScheduledService;
+    readonly [RelationKeys]?: 'scheduledService';
+  };
+  export type public_Report = {
+    id: CodecTypes['pg/int4@1']['output'];
+    scheduledServiceId: CodecTypes['pg/int4@1']['output'];
+    fileUrl: CodecTypes['pg/text@1']['output'];
+    generatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    scheduledService: public_ScheduledService;
+    readonly [RelationKeys]?: 'scheduledService';
+  };
+  export type public_Document = {
+    id: CodecTypes['pg/int4@1']['output'];
+    tenantId: CodecTypes['pg/int4@1']['output'];
+    workerId: CodecTypes['pg/int4@1']['output'];
+    name: CodecTypes['pg/text@1']['output'];
+    type: CodecTypes['pg/text@1']['output'];
+    fileUrl: CodecTypes['pg/text@1']['output'];
+    issuedAt: CodecTypes['pg/timestamptz-string@1']['output'] | null;
+    expiresAt: CodecTypes['pg/timestamptz-string@1']['output'] | null;
+    status: CodecTypes['pg/text@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    tenant: public_Tenant;
+    worker: public_Worker;
+    readonly [RelationKeys]?: 'tenant' | 'worker';
+  };
+  export type public_AuditLog = {
+    id: CodecTypes['pg/int4@1']['output'];
+    tenantId: CodecTypes['pg/int4@1']['output'];
+    userId: CodecTypes['pg/int4@1']['output'] | null;
+    action: CodecTypes['pg/text@1']['output'];
+    entity: CodecTypes['pg/text@1']['output'];
+    entityId: CodecTypes['pg/int4@1']['output'] | null;
+    metadata: CodecTypes['pg/text@1']['output'] | null;
+    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    tenant: public_Tenant;
+    user: public_User | null;
+    readonly [RelationKeys]?: 'tenant' | 'user';
+  };
+}
+
+export declare const models: {
+  public: {
+    Tenant: Models.public_Tenant;
+    User: Models.public_User;
+    Customer: Models.public_Customer;
+    Location: Models.public_Location;
+    Worker: Models.public_Worker;
+    ServiceType: Models.public_ServiceType;
+    ChecklistItem: Models.public_ChecklistItem;
+    ScheduledService: Models.public_ScheduledService;
+    ChecklistAnswer: Models.public_ChecklistAnswer;
+    Evidence: Models.public_Evidence;
+    ServiceObservation: Models.public_ServiceObservation;
+    Report: Models.public_Report;
+    Document: Models.public_Document;
+    AuditLog: Models.public_AuditLog;
+  };
+};
+
 export type TypeMaps = TypeMapsType<
   CodecTypes,
   QueryOperationTypes,
@@ -2241,6 +2492,7 @@ type ContractBase = Omit<
                   readonly model: 'Tenant';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['tenantId'];
                   readonly targetFields: readonly ['id'];
@@ -2249,6 +2501,7 @@ type ContractBase = Omit<
               readonly user: {
                 readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
                 readonly cardinality: 'N:1';
+                readonly nullable: true;
                 readonly on: {
                   readonly localFields: readonly ['userId'];
                   readonly targetFields: readonly ['id'];
@@ -2311,6 +2564,7 @@ type ContractBase = Omit<
                   readonly model: 'ChecklistItem';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['checklistItemId'];
                   readonly targetFields: readonly ['id'];
@@ -2322,6 +2576,7 @@ type ContractBase = Omit<
                   readonly model: 'ScheduledService';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['scheduledServiceId'];
                   readonly targetFields: readonly ['id'];
@@ -2404,6 +2659,7 @@ type ContractBase = Omit<
                   readonly model: 'ServiceType';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['serviceTypeId'];
                   readonly targetFields: readonly ['id'];
@@ -2500,6 +2756,7 @@ type ContractBase = Omit<
                   readonly model: 'Tenant';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['tenantId'];
                   readonly targetFields: readonly ['id'];
@@ -2588,6 +2845,7 @@ type ContractBase = Omit<
                   readonly model: 'Tenant';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['tenantId'];
                   readonly targetFields: readonly ['id'];
@@ -2599,6 +2857,7 @@ type ContractBase = Omit<
                   readonly model: 'Worker';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['workerId'];
                   readonly targetFields: readonly ['id'];
@@ -2667,6 +2926,7 @@ type ContractBase = Omit<
                   readonly model: 'ScheduledService';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['scheduledServiceId'];
                   readonly targetFields: readonly ['id'];
@@ -2759,6 +3019,7 @@ type ContractBase = Omit<
                   readonly model: 'Customer';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['customerId'];
                   readonly targetFields: readonly ['id'];
@@ -2781,6 +3042,7 @@ type ContractBase = Omit<
                   readonly model: 'Tenant';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['tenantId'];
                   readonly targetFields: readonly ['id'];
@@ -2851,6 +3113,7 @@ type ContractBase = Omit<
                   readonly model: 'ScheduledService';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['scheduledServiceId'];
                   readonly targetFields: readonly ['id'];
@@ -2959,6 +3222,7 @@ type ContractBase = Omit<
                   readonly model: 'Customer';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['customerId'];
                   readonly targetFields: readonly ['id'];
@@ -2981,6 +3245,7 @@ type ContractBase = Omit<
                   readonly model: 'Location';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['locationId'];
                   readonly targetFields: readonly ['id'];
@@ -3014,6 +3279,7 @@ type ContractBase = Omit<
                   readonly model: 'ServiceType';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['serviceTypeId'];
                   readonly targetFields: readonly ['id'];
@@ -3025,6 +3291,7 @@ type ContractBase = Omit<
                   readonly model: 'Tenant';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['tenantId'];
                   readonly targetFields: readonly ['id'];
@@ -3036,6 +3303,7 @@ type ContractBase = Omit<
                   readonly model: 'Worker';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: true;
                 readonly on: {
                   readonly localFields: readonly ['workerId'];
                   readonly targetFields: readonly ['id'];
@@ -3099,6 +3367,7 @@ type ContractBase = Omit<
                   readonly model: 'ScheduledService';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['scheduledServiceId'];
                   readonly targetFields: readonly ['id'];
@@ -3187,6 +3456,7 @@ type ContractBase = Omit<
                   readonly model: 'Tenant';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['tenantId'];
                   readonly targetFields: readonly ['id'];
@@ -3410,6 +3680,7 @@ type ContractBase = Omit<
                   readonly model: 'Tenant';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['tenantId'];
                   readonly targetFields: readonly ['id'];
@@ -3421,6 +3692,7 @@ type ContractBase = Omit<
                   readonly model: 'Worker';
                 };
                 readonly cardinality: '1:1';
+                readonly nullable: true;
                 readonly on: {
                   readonly localFields: readonly ['id'];
                   readonly targetFields: readonly ['userId'];
@@ -3524,6 +3796,7 @@ type ContractBase = Omit<
                   readonly model: 'Tenant';
                 };
                 readonly cardinality: 'N:1';
+                readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['tenantId'];
                   readonly targetFields: readonly ['id'];
@@ -3532,6 +3805,7 @@ type ContractBase = Omit<
               readonly user: {
                 readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
                 readonly cardinality: 'N:1';
+                readonly nullable: true;
                 readonly on: {
                   readonly localFields: readonly ['userId'];
                   readonly targetFields: readonly ['id'];
