@@ -1,4 +1,4 @@
-import { hash } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 import { db } from "@/src/prisma/db";
 
 export async function createUser(data: {
@@ -16,3 +16,19 @@ export async function createUser(data: {
     role: data.role,
   });
 }
+export async function verifyUserPassword(
+  password: string,
+  passwordHash: string,
+) {
+  return compare(password, passwordHash);
+}
+export async function findUserByEmail(
+  tenantId: number,
+  email: string,
+) {
+  return db.orm.public.User.where({
+    tenantId,
+    email,
+  }).first();
+}
+
