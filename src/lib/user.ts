@@ -31,4 +31,13 @@ export async function findUserByEmail(
     email,
   }).first();
 }
+export async function findUserById(
+  userId: number,
+  tenantId: number,
+) {
+  return db.orm.public.User.where({
+    id: userId,
+    tenantId,
+  }).first();
+}
 
