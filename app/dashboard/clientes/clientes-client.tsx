@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from "react";
@@ -19,25 +20,50 @@ export default function ClientesClient({
   initialCustomers,
 }: Props) {
   const [customers, setCustomers] = useState(initialCustomers);
+
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [name, setName] = useState("");
   const [rut, setRut] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function resetForm() {
+    setEditingId(null);
+    setName("");
+    setRut("");
+    setEmail("");
+    setPhone("");
+  }
+
+  function handleEdit(customer: Customer) {
+    setEditingId(customer.id);
+    setName(customer.name);
+    setRut(customer.rut ?? "");
+    setEmail(customer.email ?? "");
+    setPhone(customer.phone ?? "");
+    setMessage("");
+  }
+
+  async function handleSubmit(
+    event: React.FormEvent<HTMLFormElement>,
+  ) {
     event.preventDefault();
     setMessage("");
     setLoading(true);
 
+    const isEditing = editingId !== null;
+
     try {
       const response = await fetch("/api/customers", {
-        method: "POST",
+        method: isEditing ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          ...(isEditing ? { id: editingId } : {}),
           name,
           rut,
           email,
@@ -48,21 +74,45 @@ export default function ClientesClient({
       const data = await response.json();
 
       if (!response.ok) {
-        setMessage(data.error ?? "No se pudo registrar el cliente.");
+        setMessage(
+          data.error ??
+            (isEditing
+              ? "No se pudieron guardar los cambios."
+              : "No se pudo registrar el cliente."),
+        );
         return;
       }
 
-      setCustomers((previous) => [...previous, data.customer]);
-      setName("");
-      setRut("");
-      setEmail("");
-      setPhone("");
-      setMessage("Cliente registrado correctamente.");
+      if (isEditing) {
+        setCustomers((previous) =>
+          previous.map((customer) =>
+            customer.id === editingId
+              ? data.customer
+              : customer,
+          ),
+        );
+
+        setMessage("Cliente actualizado correctamente.");
+      } else {
+        setCustomers((previous) => [
+          ...previous,
+          data.customer,
+        ]);
+
+        setMessage("Cliente registrado correctamente.");
+      }
+
+      resetForm();
     } catch {
       setMessage("Error de conexión. Intenta nuevamente.");
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleCancelEdit() {
+    resetForm();
+    setMessage("");
   }
 
   return (
@@ -77,11 +127,17 @@ export default function ClientesClient({
       </p>
 
       <section>
-        <h2>Registrar cliente</h2>
+        <h2>
+          {editingId !== null
+            ? "Editar cliente"
+            : "Registrar cliente"}
+        </h2>
 
         <form onSubmit={handleSubmit}>
           <p>
-            <label htmlFor="name">Nombre del cliente *</label>
+            <label htmlFor="name">
+              Nombre del cliente *
+            </label>
             <br />
             <input
               id="name"
@@ -104,7 +160,9 @@ export default function ClientesClient({
           </p>
 
           <p>
-            <label htmlFor="email">Correo electrónico</label>
+            <label htmlFor="email">
+              Correo electrónico
+            </label>
             <br />
             <input
               id="email"
@@ -128,15 +186,31 @@ export default function ClientesClient({
           </p>
 
           <button type="submit" disabled={loading}>
-            {loading ? "Registrando..." : "Registrar cliente"}
+            {loading
+              ? "Guardando..."
+              : editingId !== null
+                ? "Guardar cambios"
+                : "Registrar cliente"}
           </button>
+
+          {editingId !== null && (
+            <button
+              type="button"
+              onClick={handleCancelEdit}
+              disabled={loading}
+            >
+              Cancelar
+            </button>
+          )}
         </form>
 
         {message && <p role="status">{message}</p>}
       </section>
 
       <section>
-        <h2>Clientes registrados ({customers.length})</h2>
+        <h2>
+          Clientes registrados ({customers.length})
+        </h2>
 
         {customers.length === 0 ? (
           <p>Aún no hay clientes registrados.</p>
@@ -148,8 +222,10 @@ export default function ClientesClient({
                 <th>RUT</th>
                 <th>Correo</th>
                 <th>Teléfono</th>
+                <th>Acciones</th>
               </tr>
             </thead>
+
             <tbody>
               {customers.map((customer) => (
                 <tr key={customer.id}>
@@ -157,6 +233,15 @@ export default function ClientesClient({
                   <td>{customer.rut ?? "—"}</td>
                   <td>{customer.email ?? "—"}</td>
                   <td>{customer.phone ?? "—"}</td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => handleEdit(customer)}
+                      disabled={loading}
+                    >
+                      Editar
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -166,3 +251,4 @@ export default function ClientesClient({
     </main>
   );
 }
+
